@@ -1,4 +1,5 @@
 {
     "ip": "0.0.0.0",
-    "port": 8800
+    "port": 8800,
+    "databaseURL": "mongodb+srv://root:xQ8LDJSY@cluster0.88mra.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 }
