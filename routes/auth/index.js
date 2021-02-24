@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Validator = require('../../libs/Validator');
 const validate = require('../../middlewares/validate');
+const authMiddlware = require('../../middlewares/auth');
 
 const email = Validator.Email().required();
 const password = Validator.String().required().min(6).max(64);
@@ -20,5 +21,11 @@ const loginTemplate = {
     password
 }
 router.post('/login', [validate(loginTemplate)], loginHandler);
+
+const refreshHandler = require('./refresh');
+const refreshTemplate = {
+    refreshToken: Validator.String().required()
+}
+router.post('/refresh', [authMiddlware, validate(refreshTemplate)], refreshHandler);
 
 module.exports = router;
