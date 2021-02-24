@@ -7,8 +7,8 @@ app.use(bodyParser.raw())
 app.use(bodyParser.json())
 app.use(bodyParser.text())
 
-app.get('/', (req, res) => {
-    res.send(`<h1>Hello World!</h1>`);
+app.post('/api/ping', (req, res) => {
+    res.send('ok');
 });
 
 

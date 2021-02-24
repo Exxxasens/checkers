@@ -1,5 +1,6 @@
 {
     "ip": "0.0.0.0",
     "port": 8800,
-    "databaseURL": "mongodb+srv://root:xQ8LDJSY@cluster0.88mra.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    "databaseURL": "mongodb+srv://root:xQ8LDJSY@cluster0.88mra.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret": "123456789"
 }
