@@ -2,12 +2,37 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const RefreshTokenModel = require('../Models/RefreshToken');
 const UserModel = require('../Models/User');
-const ServiceError = require('./ServiceError');
+const ServiceError = require('../errors/ServiceError');
+const ValidationError = require('../errors/ValidationError');
 const { jwtSecret, jwtConfig } = require('../config.json');
 
 class AuthService {
 
     register = async (username, email, password) => {
+
+        const isUsernameExists = await User.exists({ 
+            username: { 
+                $regex: new RegExp(username, 'i') 
+            } 
+        });
+        if (isUsernameExists) {
+            throw new ValidationError({
+                message: 'Username should be unique',
+                fields: ['username'],
+                code: 401
+            });
+        }
+
+        const isEmailExists = await User.exists({ 
+            email: email.toLowerCase() 
+        });
+        if (isEmailExists) {
+            throw new ValidationError({
+                message: 'Email should be unique',
+                fields: ['email'],
+                code: 401
+            });
+        }
         const hash = await bcrypt.hash(password, 10);
         const user = new UserModel({ username, email, password: hash });
         return user.save();

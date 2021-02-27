@@ -30,7 +30,7 @@ class Validator {
                 if (value && typeof (value) !== 'string') {
                     return {
                         error: true,
-                        message: 'type string is required'
+                        message: 'Type string is required'
                     }
                 }
                 return {
@@ -43,7 +43,7 @@ class Validator {
                     if (value.length < int) {
                         return {
                             error: true,
-                            message: `string length is less then ${int}`
+                            message: `String length is less then ${int}`
                         }
                     }
                     return {
@@ -58,7 +58,7 @@ class Validator {
                     if (value.length > int) {
                         return {
                             error: true,
-                            message: `string length is less more than ${int}`
+                            message: `String length is less more than ${int}`
                         }
                     }
                     return {
@@ -82,7 +82,7 @@ class Validator {
                 if (value && typeof (value) !== 'number') {
                     return {
                         error: true,
-                        message: 'type number is required'
+                        message: 'Type number is required'
                     }
                 }
                 return {
@@ -95,7 +95,7 @@ class Validator {
                     if (value < int) {
                         return {
                             error: true,
-                            message: `number is less than ${int}`
+                            message: `Value is less than ${int}`
                         }
                     }
                     return {
@@ -110,7 +110,7 @@ class Validator {
                     if (value > int) {
                         return {
                             error: true,
-                            message: `number is more then ${int}`
+                            message: `Value is more then ${int}`
                         }
                     }
                     return {
@@ -140,7 +140,7 @@ class Validator {
                 }
                 return {
                     error: true,
-                    message: 'invalid email'
+                    message: 'Invalid email'
                 }
             }],
             required() {
