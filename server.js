@@ -1,6 +1,6 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
+const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.raw())
@@ -11,17 +11,10 @@ app.post('/api/ping', (req, res) => {
     res.send('ok');
 });
 
-
 // register route
-app.use('/api', require('./routes/auth'));
-
+app.use('/api/auth', require('./routes/auth'));
 
 // error handling
-app.use((err, req, res, next) => {
-    if (err.error) {
-        res.status(401).json(err);
-    }
-    next();
-});
+app.use(require('./middlewares/errorHandler'));
 
 module.exports = app;

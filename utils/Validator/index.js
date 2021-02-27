@@ -12,7 +12,7 @@ class Validator {
                 }
             }
 
-            if (!obj.hasOwnProperty(key) && template[key]._required || !obj[key]) {
+            if (!obj.hasOwnProperty(key) && template[key]._required || !obj[key] && template[key]._required) {
                 result[key] = {
                     error: true,
                     message: `${key} is required`

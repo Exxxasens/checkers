@@ -1,32 +1,13 @@
-const RefreshToken = require('../../Models/RefreshToken');
-const jwt = require('jsonwebtoken');
-const { jwtSecret, jwtConfig } = require('../../config.json');
+const AuthService = require('../../services/AuthService');
+const service = new AuthService();
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
     const { body } = req;
-    const { refreshToken } = body;
-    const { id } = req.session;
+    const { refreshToken, token } = body;
     try {
-        const isFoundToken = await RefreshToken.deleteOne({ _id: refreshToken });
-    
-        if (isFoundToken.deletedCount === 0) {
-            await RefreshToken.deleteMany({ owner: id });
-            return res.status(404).json({ message: 'Invalid refresh token' });
-        }
-    
-        const newRefreshToken = new RefreshToken({ owner: id });
-        await newRefreshToken.save();
-    
-        const accessToken = jwt.sign(
-            { id },
-            jwtSecret,
-            jwtConfig
-        );
-    
-        return res.json({ refreshToken: newRefreshToken._id, token: accessToken });
+        const tokenPair = await service.refreshToken(token, refreshToken);
+        return res.json(tokenPair);
     } catch (error) {
-        res.status(500).json({ message: 'Unexpected error occurred' });
-        console.log(error);
+        next(error);
     }
-    
 }

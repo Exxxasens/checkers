@@ -1,30 +1,27 @@
-const bcrypt = require('bcrypt');
 const User = require('../../Models/User');
+const AuthService = require('../../services/AuthService');
+const service = new AuthService();
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
     const { body } = req;
     const { email, username, password } = body;
 
     try {
-        const isFoundUsername = await User.exists({ username });
-        if (isFoundUsername) {
+
+        if (await User.exists({ username })) {
             return res.status(401).json({ error: true, fields: ['username'], message: 'Username should be unique' });
         }
-
-        const isFoundEmail = await User.exists({ email });
-        if (isFoundEmail) {
-            return res.status(401).json({ fields: ['email'], message: 'Email should be unique' });
+    
+        if (await User.exists({ email })) {
+            return res.status(401).json({ error: true, fields: ['email'], message: 'Email should be unique' });
         }
 
-        const hash = await bcrypt.hash(password, 10);
-        const user = new User({ username, email, password: hash });
-        await user.save();
+        await service.register(username, email, password);
 
         res.status(200).json({ message: 'User registered successfully' });
 
     } catch (error) {
-        res.status(500).json({ message: 'Unexpected error occurred' });
-        console.log(error);
+        next(error);
     }
 
 }

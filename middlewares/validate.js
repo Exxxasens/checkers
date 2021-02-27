@@ -1,4 +1,4 @@
-const Validator = require('../libs/Validator');
+const Validator = require('../utils/Validator');
 
 module.exports = (template) => async (req, res, next) => {
     const { body } = req;

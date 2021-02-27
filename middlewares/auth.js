@@ -3,8 +3,11 @@ const { jwtSecret } = require('../config.json');
 
 module.exports = async (req, res, next) => {
     const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(404).json({ message: 'Access token is required' });
+    }
+
     const accessToken = authHeader.split(' ')[1];
-    
     if (!accessToken) {
         return res.status(404).json({ message: 'Access token is required' });
     }
